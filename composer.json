@@ -1,5 +1,5 @@
 {
-    "name": "seven/hostnameauthentication",
+    "name": "7sg/hostnameauthentication",
     "description": "",
     "type": "neos-package",
     "require": {
