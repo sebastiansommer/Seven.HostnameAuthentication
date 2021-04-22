@@ -4,12 +4,18 @@ declare(strict_types=1);
 namespace Seven\HostnameAuthentication\Security;
 
 use Exception;
+use Neos\Cache\Frontend\StringFrontend;
 use Neos\Flow\Mvc\ActionRequest;
 use Neos\Flow\Security\Authentication\Token\AbstractToken;
 use Neos\Flow\Security\Authentication\Token\SessionlessTokenInterface;
 
 class HostnameToken extends AbstractToken implements SessionlessTokenInterface
 {
+    /**
+     * @var StringFrontend
+     */
+    protected $hostCache;
+
     /**
      * @param ActionRequest $actionRequest
      * @return bool|void
@@ -25,7 +31,13 @@ class HostnameToken extends AbstractToken implements SessionlessTokenInterface
             $ipAddress = $actionRequest->getHttpRequest()->getAttribute('clientIpAddress');
         }
 
-        $hostname = gethostbyaddr($ipAddress);
+        $hostCacheIdentifier = sha1($ipAddress);
+
+        if ($this->hostCache->has($hostCacheIdentifier) === false) {
+            $this->hostCache->set($hostCacheIdentifier, gethostbyaddr($ipAddress));
+        }
+
+        $hostname = $this->hostCache->get($hostCacheIdentifier);
 
         if (!empty($hostname)) {
             $this->credentials['hostname'] = $hostname;

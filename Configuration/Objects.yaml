@@ -1,0 +1,9 @@
+Seven\HostnameAuthentication\Security\HostnameToken:
+  properties:
+    hostCache:
+      object:
+        factoryObjectName: Neos\Flow\Cache\CacheManager
+        factoryMethodName: getCache
+        arguments:
+          1:
+            value: Seven_HostnameAuthentication_HostCache
