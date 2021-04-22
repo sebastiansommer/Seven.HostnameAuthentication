@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Seven\HostnameAuthentication\Security;
 
+use Exception;
 use Neos\Flow\Annotations as Flow;
 use Neos\Flow\Security\Account;
 use Neos\Flow\Security\Authentication\Provider\AbstractProvider;
@@ -20,7 +21,7 @@ class HostnameProvider extends AbstractProvider
 
     /**
      * @param TokenInterface $authenticationToken
-     * @throws \Exception
+     * @throws Exception
      */
     public function authenticate(TokenInterface $authenticationToken)
     {
